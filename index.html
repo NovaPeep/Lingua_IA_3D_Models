@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Modelo 3D - Lingua IA</title>
+  <style>
+    body { margin: 0; }
+    canvas { display: block; }
+  </style>
+</head>
+<body>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+  <script src="https://threejs.org/examples/js/loaders/GLTFLoader.js"></script>
+
+  <script>
+    const scene = new THREE.Scene();
+    const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+    const renderer = new THREE.WebGLRenderer();
+    renderer.setSize(window.innerWidth, window.innerHeight);
+    document.body.appendChild(renderer.domElement);
+
+    // Agrega una luz a la escena
+    const light = new THREE.AmbientLight(0x404040); // luz ambiental
+    scene.add(light);
+
+    // Cargar el modelo GLB desde GitHub
+    const loader = new THREE.GLTFLoader();
+    const modelUrl = 'https://raw.githubusercontent.com/novapeep/Lingua_IA_3D_Models/main/nombre-del-modelo.glb';  // Reemplaza con tu URL
+
+    loader.load(modelUrl, (gltf) => {
+      scene.add(gltf.scene);
+      gltf.scene.scale.set(0.5, 0.5, 0.5); // Ajusta el tamaño si es necesario
+    }, undefined, (error) => {
+      console.error(error);
+    });
+
+    camera.position.z = 5;
+
+    // Función de animación
+    function animate() {
+      requestAnimationFrame(animate);
+      renderer.render(scene, camera);
+    }
+    animate();
+  </script>
+</body>
+</html>
